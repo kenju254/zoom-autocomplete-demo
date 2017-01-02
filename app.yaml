@@ -3,6 +3,8 @@
 # https://developers.google.com/appengine/docs/python/config/appconfig
 # for details.
 
+#TODO Change this to an App Engine Flexible in case Standard Env does not work
+
 runtime: python27
 api_version: 1
 threadsafe: yes
