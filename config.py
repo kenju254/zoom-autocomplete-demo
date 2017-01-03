@@ -1,5 +1,7 @@
 #TODO Define the configuration variable for the app.
 
+import os
+
 # The secret key is used by Flask to encrypt session cookies.
 SECRET_KEY = 'secret'
 
