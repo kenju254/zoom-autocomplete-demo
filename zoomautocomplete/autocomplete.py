@@ -1,12 +1,10 @@
-from flask import Flask, render_template, request
+from flask import Flask, Blueprint, render_template, request, redirect, url_for
 
-app = Flask(__name__)
-
-
+autocomplete = Blueprint('autocomplete', __name__)
 
 # ** Example 5 **
 # Autocomplete with Bloodhound with Remote data
-@app.route('/bloohdhoundRemote', methods=['GET', 'POST'])
+@autocomplete.route('/bloohdhoundRemote', methods=['GET', 'POST'])
 def bloohdhoundRemote():
 	print "** bloohdhoundRemote() called"
 	if request.method == 'POST':
@@ -23,7 +21,7 @@ def bloohdhoundRemote():
 
 # ** Example 4 **
 # Autcomplete from multiple sources Bloodhound
-@app.route('/multipleRemote', methods=['GET', 'POST'])
+@autocomplete.route('/multipleRemote', methods=['GET', 'POST'])
 def multipleRemote():
 	print " ** multipleRemote() called"
 	if request.method == "POST":
@@ -39,7 +37,7 @@ def multipleRemote():
 
 # ** Example 3 **
 # Autocomplete method - called from Jinja template
-@app.route('/datcomplete', methods=['GET', 'POST'])
+@autocomplete.route('/datcomplete', methods=['GET', 'POST'])
 def datcomplete():
 	print "** datcomplete() called"
 	if request.method == 'POST':
@@ -66,10 +64,12 @@ def datcomplete():
 
 
 # Route to home page
-@app.route('/', methods=['GET', 'POST'])
-@app.route('/home', methods=['GET', 'POST'])
+@autocomplete.route('/', methods=['GET', 'POST'])
+@autocomplete.route('/home', methods=['GET', 'POST'])
 def show_home():
 	return render_template('index.html')
+    
+
 
 if __name__ == "__main__":
-    app.run()
+    autocomplete.run()
