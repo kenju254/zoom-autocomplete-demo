@@ -67,8 +67,8 @@ def datcomplete():
 @autocomplete.route('/', methods=['GET', 'POST'])
 @autocomplete.route('/home', methods=['GET', 'POST'])
 def show_home():
-	#return render_template('index.html')
-    print "Hello world"
+	return render_template('index.html')
+    
 
 
 if __name__ == "__main__":
