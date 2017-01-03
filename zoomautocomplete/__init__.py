@@ -23,13 +23,15 @@ def createapp(config, debug=False, testing=False, config_overrides=None):
         model = get_model()
         model.init_app(app)
 
-    # TODO: Configure the  app requests
+    #TODO: Configure the  app requests
+    from .autocomplete import autocomplete
+    app.register_blueprint(autocomplete, url_prefix='/')
 
     # Registering the default root and homepage for the app
 
     @app.route("/")
     def index():
-        return redirect(url_for('autocomplete.bloohdhoundRemote'))
+        return redirect(url_for('autocomplete.show_home'))
 
     return app
 
