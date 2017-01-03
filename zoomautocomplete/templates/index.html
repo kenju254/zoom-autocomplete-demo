@@ -1,196 +1,118 @@
-{% extends "main-typeahead.html" %}
+{% extends "main.html" %}
 {% block content %}
 {% include "header.html" %}
 
-<style type="text/css">
-.tt-input, /* UPDATE: newer versions use tt-input instead of tt-query */
-.tt-hint {
-    width: 396px;
-    height: 30px;
-    padding: 8px 12px;
-    font-size: 24px;
-    line-height: 30px;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    outline: none;
+<style>
+.ui-helper-hidden-accessible { border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px; 
 }
-
-.tt-input { /* UPDATE: newer versions use tt-input instead of tt-query */
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+.ui-autocomplete .highlight {
+	text-decoration: underline;
+	color: orange;
 }
-
-.tt-hint {
-    color: #999;
+.fixed-height {
+	padding: 1px;
+	max-height: 200px;
+	overflow: auto;
 }
-.tt-menu { /* UPDATE: newer versions use tt-menu instead of tt-dropdown-menu */
-    width: 422px;
-    margin-top: 12px;
-    padding: 8px 0;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+.ui-autocomplete-category {
+	font-weight: bold;
+	padding: .2em .4em;
+	margin: .8em 0 .2em;
+	line-height: 1.5;
 }
-.tt-suggestion {
-    padding: 3px 20px;
-    font-size: 18px;
-    line-height: 24px;
+.ui-autocomplete .highlight {
+	text-decoration: underline;
+	color: orange;
 }
-.tt-suggestion p {
-    margin: 0;
-}
-
-.tt-suggestion > p:hover,
-.tt-suggestion > p:focus {
-    color: #ffffff;
-    text-decoration: none;
-    outline: 0;
-    background-color: #428bca;
-}
-
-.tt-suggestion.tt-cursor { /* UPDATE: newer versions use .tt-suggestion.tt-cursor */
-    color: #fff;
-    background-color: #428bca;
-
-}
-.tt-suggestion.tt-cursor,
-.tt-suggestion:hover {
-  color: #fff;
-  background-color: #428bca;
-  cursor: pointer;
-}
-
-/*  http://jsfiddle.net/sherbrow/khsss/1/ */
-.typeahead + .dropdown-menu .active > a,
-.typeahead + .dropdown-menu .active > a:hover {
-    color: #ffffff;
-    background-color: #FF77FF;
-    background-image: -moz-linear-gradient(top, #FF77FF, #FF44FF);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#FF77FF), to(#FF44FF));
-    background-image: -webkit-linear-gradient(top, #FF77FF, #FF44FF);
-    background-image: -o-linear-gradient(top, #FF77FF, #FF44FF);
-    background-image: linear-gradient(to bottom, #FF77FF, #FF44FF);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF77FF', endColorstr='#FF44FF', GradientType=0);
-}
-
-#multiple-datasets .league-name {
-  margin: 0 20px 5px 20px;
-  padding: 3px 0;
-  border-bottom: 1px solid #ccc;
+href{
+  color: red;
 }
 </style>
 
 
-<main>
-  <section>
-    <div class="container" id="the-basics">
-      <div class="row">
-        <p class="caption">Example 1 - Autocomplete using TypeaheadJS - The Basics</p>
-        <div class="typeahead-demo">
-          <input type="text" data-role="materialtags" placeholder="States of USA"/>
-        </div>
-      </div>
-    </div>
-
-    <br><br><br><br>
-
-    <div class="container">
-      <div class="row">
-       <p class="caption">Example 2 - Autocomplete using TypeaheadJS - Using Bloodhound</p>
-       <br>
-        <div id="bloodhound">
-          <!-- <label for="tags">Resources</label> -->
-          <input class="typehead-input" type="text" data-role="materialtags" placeholder="Select Resource"/>
-        </div>
-      </div>
-    </div>
-
-    <br><br><br><br>
-
-    <!-- Example 3 -->
-    <div class="container" id="cities">
-      <div class="row">
-       <p class="caption">Example 3 - Autocomplete using TypeaheadJS - Bloodhound with Materialize Tags</p>
-       <div class="example3">
-          <label for="demo">Cities</label>
-          <input class="ex3" type="text" id="demo" data-role="materialtags" value="Amsterdam,Paris"/>
-        </div>
-      </div>
-    </div>
-
-    <br><br><br><br>
-
-    <!-- Example 4 -->
-    <!-- http://twitter.github.io/typeahead.js/examples/#multiple-datasets -->
-    <div class="container">
-      <div class="row">
-        <p class="caption">Example 4 - Autocomplete using TypeaheadJS (Multiple Data Sources) - Bloodhound/Materialize Tags</p>
-        <div id="multiple-datasets">
-          <!-- <label for="multiple-data-sources-demo">Mutiple Data Sources</label> -->
-          <input class="typeahead-multiple" type="text" placeholder="NBA and NHL teams"/>
-        </div>
-      </div>
-    </div>
+<div class="container">
+	Example 1 <br> Autocomplete Demo: <input name="autocomplete" type="text" id="autocomplete" placeholder="Select a resource or enter your own, e.g. Wormbase"></input>
+</div>
+<br><br><br><br>
+<div class="container">
+	Example 2 <br> Category Autocomplete Demo: <label for="search"></label>
+	<input id="search" name="search" placeholder="Select a resource or enter your own, e.g. Wormbase"></input>
+</div>
+<br><br><br><br>
+<div class="container">
+  Example 3 <br> Autocomplete Demo with Sending data to Autocomplete: <label for="search-post-data"></label>
+  <input id="search-post-data" name="search-post-data" placeholder="Select a resource or enter your own, e.g. Wormbase"></input>
+</div>
+<br><br><br><br>
+<div class="container" id="the-basics">
+  Example 4 - Autocomplete using TypeaheadJS - The Basics <br>
+  <input class="typeahead" type="text" placeholder="States of USA">
+</div>
+<br><br><br><br>
 
 
-    <br><br><br><br>
-  </section>
-</main>
+<div class="container">
+   Example 4a - Autocomplete using TypeaheadJS - Using Bloodhound <br>
+  <div id="bloodhound">
+    <!-- <label for="tags">Resources</label> -->
+    <input class="typehead-input" type="text" data-role="materialtags" placeholder="Select Resource">
+  </div>
+</div>
 
 
-<script type="text/javascript">
-// https://github.com/twitter/typeahead.js/issues/1195
-$('body').on("mouseover", ".tt-suggestion", function () {
-    $('.tt-suggestion').removeClass('tt-cursor');
-    $(this).addClass('tt-cursor');
-});
-</script>
+<br><br><br><br>
+<div class="container" id="example5">
+  Example 5 - Autocomplete using Bloodhound - Display Tags
+  <input type="text" value="Amsterdam,Paris" class="typeahead" data-role="materialtags"/>
+</div>
+<br><br><br><br>
+<br><br><br><br>
+<br><br><br><br>
 
 
-<!-- Example 1 -->
+<!-- Example 5 -->
 <script>
-var states = new Bloodhound({
-  datumTokenizer: Bloodhound.tokenizers.whitespace,
-  queryTokenizer: Bloodhound.tokenizers.whitespace,
-  local: ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
-  'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
-  'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
-  'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
-  'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-  'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-  'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
-  'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-  'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
-  ]
-});
+$(function() {
+  var cities = new Bloodhound({
+      // datumTokenizer: function(datum) {
+      //   return Bloodhound.tokenizers.whitespace(datum.label)
+      // },
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      prefetch: {
+        url: '{{ url_for("bloohdhoundRemote") }}',
+        'cache': false,
+        filter: function(response) {
+          console.log("City Names:", response.citynames)
+          return $.map(response.citynames, function(cityname) {
+            return { name: cityname };
+          });
+        }
+      }
+  });
 
-// Basic Typeahead (no Tags)
-// $('#the-basics .typeahead').typeahead({
-//   hint: true,
-//   highlight: true,
-//   minLength: 1
-// },
-// {
-//   name: 'states',
-//   source: states
-// });
+  cities.initialize();
 
-// Material Tags display
-$('div.typeahead-demo input').materialtags({
-  maxTags: 3,
-  // onTagExists: function(item, $tag) {
-  //       $tag.hide().fadeIn();
-  //   },
-  typeaheadjs: {
-    name: 'states',
-    source: states
-  }
+  $('#example5 input').materialtags({
+    typeaheadjs: {
+      name: 'cities',
+      displayKey: 'name',
+      valueKey: 'name',
+      source: cities
+    }
+  });
 });
 </script>
 
 
-<!-- Example 2 -->
+<!-- Example 4 -->
 <script>
 var resources = new Bloodhound({
   datumTokenizer: function(datum) {
@@ -264,8 +186,8 @@ $('#bloodhound .typehead-input').materialtags({
     displayKey: 'label',
     valueKey: 'value',
     source: resources.ttAdapter()
-  },
-  //freeInput: true
+  }, 
+  // freeInput: true
 });
 
 //Use TypeaheadJS for Autocomplete
@@ -315,94 +237,117 @@ $('#bloodhound .typehead-input').materialtags({
 
 
 <!-- Example 3 -->
-<script>
-var cities = new Bloodhound({
-    // datumTokenizer: function(datum) {
-    //   return Bloodhound.tokenizers.whitespace(datum.label)
-    // },
-    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
-    queryTokenizer: Bloodhound.tokenizers.whitespace,
-    prefetch: {
-      url: '{{ url_for("bloohdhoundRemote") }}',
-      'cache': false,
-      filter: function(response) {
-        console.log("City Names:", response.citynames)
-        return $.map(response.citynames, function(cityname) {
-          return { name: cityname };
-        });
-      }
-    }
-});
-
-cities.initialize();
-
-$('div.example3 input').materialtags({
-  typeaheadjs: {
-    name: 'cities',
-    displayKey: 'name',
-    valueKey: 'name',
-    source: cities
-  }
-});
-</script>
-
-
-<!-- Example 4 - Multiple Datasets -->
 <script type="text/javascript">
-var nbaTeams = new Bloodhound({
-  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('team'),
-  queryTokenizer: Bloodhound.tokenizers.whitespace,
-  prefetch: {
-    url: '{{ url_for("multipleRemote") }}',
-    'cache': false,
-    filter: function(response) {
-      console.log("NBA Data: ", response.nba_teams)
-      return response.nba_teams;
-    }
-  }
-});
+// Send data to autocomplete to dynamically extend data source
+$(function() {
+  var keypath = "My Test Keypath"
+  console.log(keypath)
 
-var nhlTeams = new Bloodhound({
-  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('team'),
-  queryTokenizer: Bloodhound.tokenizers.whitespace,
-  prefetch: {
-    url: '{{ url_for("multipleRemote") }}',
-    'cache': false,
-    filter: function(response) {
-      console.log("NHL Data: ", response.nhl_teams)
-      return response.nhl_teams;
-    }
-  }
-});
-
-$('#multiple-datasets .typeahead-multiple').typeahead({
-  highlight: true
-},
-{
-  name: 'nba_teams',
-  //display: 'team',
-  display: function(response) {
-    return response.team;
-  },
-  source: nbaTeams,
-  templates: {
-    header: '<h3 class="league-name">NBA Teams</h3>'
-  }
-},
-{
-  name: 'nhl_teams',
-  display: function(response){
-    return response.team;
-  },
-  //display: 'team',
-  source: nhlTeams,
-  templates: {
-    header: '<h3 class="league-name">NHL Teams</h3>'
-  }
+  $.ajax({
+        url: '{{ url_for("datcomplete") }}',
+        contentType: 'application/json',
+        method: "POST",
+        dataType : 'json',
+        data: JSON.stringify({variable:keypath})
+    }).done(function (data) {
+        $('#search-post-data').autocomplete({
+            source: data.matching_results,
+            minLength: 1
+        }).data("ui-autocomplete")._renderItem = function(ul, item) {
+          var $a = $("<a></a>").text(item.label);
+          //highlightText(this.term, $a);
+          return $("<li></li>").append($a).appendTo(ul);
+        };
+    });
 });
 </script>
 
 
+<!-- Example 1 -->
+<script type="text/javascript">
+// From: http://stackoverflow.com/questions/17365821/using-jquery-autocomplete-with-flask
+// Highlight matched text: http://salman-w.blogspot.com/2013/12/jquery-ui-autocomplete-examples.html#example-4 
+$(function() {
+	function highlightText(text, $node) {
+				var searchText = $.trim(text).toLowerCase(), currentNode = $node.get(0).firstChild, matchIndex, newTextNode, newSpanNode;
+				while ((matchIndex = currentNode.data.toLowerCase().indexOf(searchText)) >= 0) {
+					newTextNode = currentNode.splitText(matchIndex);
+					currentNode = newTextNode.splitText(searchText.length);
+					newSpanNode = document.createElement("span");
+					newSpanNode.className = "highlight";
+					currentNode.parentNode.insertBefore(newSpanNode, currentNode);
+					newSpanNode.appendChild(newTextNode);
+				}
+			}
+    $.ajax({
+        url: '{{ url_for("autocomplete") }}'
+        }).done(function (data) {
+            $('#autocomplete').autocomplete({
+            	//source: data.json_list,
+				      source: data.matching_results,			 
+            	minLength: 2
+            }).data("ui-autocomplete")._renderItem = function(ul, item) {
+				var $a = $("<a></a>").text(item.label);
+				highlightText(this.term, $a);
+				return $("<li></li>").append($a).appendTo(ul);
+			};
+    });
+});
+</script>
 
+
+<!-- Example 2 -->
+<script>
+// Category autocomplete widget with matching text highlighting
+// https://jqueryui.com/autocomplete/#categories
+  $.widget( "custom.catcomplete", $.ui.autocomplete, {
+    _create: function() {
+      this._super();
+      this.widget().menu( "option", "items", "> :not(.ui-autocomplete-category)" );
+    },
+    _renderMenu: function( ul, items ) {
+      var that = this,
+        currentCategory = "";
+      $.each( items, function( index, item ) {
+        var li;
+        if ( item.category != currentCategory ) {
+          ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+          currentCategory = item.category;
+        }
+        li = that._renderItemData( ul, item );
+        if ( item.category ) {
+          li.attr( "aria-label", item.category + " : " + item.label );
+        }
+      });
+    }
+  });
+
+  $(function() {
+  	function highlightText(text, $node) {
+				var searchText = $.trim(text).toLowerCase(), currentNode = $node.get(0).firstChild, matchIndex, newTextNode, newSpanNode;
+				while ((matchIndex = currentNode.data.toLowerCase().indexOf(searchText)) >= 0) {
+					newTextNode = currentNode.splitText(matchIndex);
+					currentNode = newTextNode.splitText(searchText.length);
+					newSpanNode = document.createElement("span");
+					newSpanNode.className = "highlight";
+					currentNode.parentNode.insertBefore(newSpanNode, currentNode);
+					newSpanNode.appendChild(newTextNode);
+				}
+			}
+    $.ajax({
+        url: '{{ url_for("catcomplete") }}'
+        }).done(function (data) {
+    $( "#search" ).catcomplete({
+     	delay: 0,
+    	source: data.category_data
+    }).data("custom-catcomplete")._renderItem = function(ul, item) {
+    	var $a = $("<a></a>").text(item.label);
+		highlightText(this.term, $a);
+		//console.log(this.term)
+		return $("<li></li>").append($a).appendTo(ul);
+		};
+	});
+  });
+</script>
 
 {% endblock %}
