@@ -1,6 +1,6 @@
 import logging
 
-from flask import current_app, Flask
+from flask import current_app, Flask, redirect, url_for
 
 def createapp(config, debug=False, testing=False, config_overrides=None):
     app = Flask(__name__)
@@ -23,15 +23,15 @@ def createapp(config, debug=False, testing=False, config_overrides=None):
         model = get_model()
         model.init_app(app)
 
-    # TODO: Configure the  app requests
+    #TODO: Configure the  app requests
+    from .autocomplete import autocomplete
+    app.register_blueprint(autocomplete, url_prefix='/')
 
     # Registering the default root and homepage for the app
+
     @app.route("/")
     def index():
         return redirect(url_for('autocomplete.show_home'))
-
-
-
 
     return app
 
@@ -50,7 +50,8 @@ def get_model():
     # TODO Add the handlers for the cloudsql and the datastore
     model_backend = current_app.config['DATA_BACKEND']
     if model_backend == 'cloudsql':
-        pass
+        from .import model_cloudsql
+        model = model_cloudsql
     elif model_backend == 'datastore':
         pass
     else:
@@ -59,4 +60,4 @@ def get_model():
             "Please specify cloudsql or datastore"
         )
 
-    return model #TODO remember to add model here and complete the configurations
+    return model

@@ -4,9 +4,7 @@
 import zoomautocomplete
 import config
 
-
-
-app = zoomautocomplete.creatapp(config)
+app = zoomautocomplete.createapp(config)
 
 ##This only runs locally  and when in production it is run by gunicorn
 if __name__ == '__main__':
