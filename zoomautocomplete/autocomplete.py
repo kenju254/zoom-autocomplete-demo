@@ -2,6 +2,8 @@ from flask import Flask, Blueprint, render_template, request, redirect, url_for
 
 autocomplete = Blueprint('autocomplete', __name__)
 
+"""
+
 # ** Example 5 **
 # Autocomplete with Bloodhound with Remote data
 @autocomplete.route('/bloohdhoundRemote', methods=['GET', 'POST'])
@@ -61,14 +63,14 @@ def datcomplete():
 	results.extend(new_data)
 	return jsonify(matching_results=results)
 
-
+"""
 
 # Route to home page
 @autocomplete.route('/', methods=['GET', 'POST'])
 @autocomplete.route('/home', methods=['GET', 'POST'])
 def show_home():
 	return render_template('index.html')
-    
+
 
 
 if __name__ == "__main__":
