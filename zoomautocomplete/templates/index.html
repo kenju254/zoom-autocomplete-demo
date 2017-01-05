@@ -77,37 +77,13 @@
 
 <main>
   <section>
-    <div class="container" id="the-basics">
-      <div class="row">
-        <p class="caption">Example 1 - Autocomplete using TypeaheadJS - The Basics</p>
-        <div class="typeahead-demo">
-          <input type="text" data-role="materialtags" placeholder="States of USA"/>
-        </div>
-      </div>
-    </div>
-
-    <br><br><br><br>
-
-    <div class="container">
-      <div class="row">
-       <p class="caption">Example 2 - Autocomplete using TypeaheadJS - Using Bloodhound</p>
-       <br>
-        <div id="bloodhound">
-          <!-- <label for="tags">Resources</label> -->
-          <input class="typehead-input" type="text" data-role="materialtags" placeholder="Select Resource"/>
-        </div>
-      </div>
-    </div>
-
-    <br><br><br><br>
-
     <!-- Example 3 -->
     <div class="container" id="cities">
       <div class="row">
-       <p class="caption">Example 3 - Autocomplete using TypeaheadJS - Bloodhound with Materialize Tags</p>
+       <p class="caption">Search your products here</p>
        <div class="example3">
-          <label for="demo">Cities</label>
-          <input class="ex3" type="text" id="demo" data-role="materialtags" value="Amsterdam,Paris"/>
+          <label for="demo">Products</label>
+          <input class="ex3" type="text" id="demo" data-role="materialtags" value=""/>
         </div>
       </div>
     </div>
@@ -116,15 +92,7 @@
 
     <!-- Example 4 -->
     <!-- http://twitter.github.io/typeahead.js/examples/#multiple-datasets -->
-    <div class="container">
-      <div class="row">
-        <p class="caption">Example 4 - Autocomplete using TypeaheadJS (Multiple Data Sources) - Bloodhound/Materialize Tags</p>
-        <div id="multiple-datasets">
-          <!-- <label for="multiple-data-sources-demo">Mutiple Data Sources</label> -->
-          <input class="typeahead-multiple" type="text" placeholder="NBA and NHL teams"/>
-        </div>
-      </div>
-    </div>
+
 
 
     <br><br><br><br>
@@ -142,240 +110,39 @@ $('body').on("mouseover", ".tt-suggestion", function () {
 
 
 <!-- Example 1 -->
-<script>
-var states = new Bloodhound({
-  datumTokenizer: Bloodhound.tokenizers.whitespace,
-  queryTokenizer: Bloodhound.tokenizers.whitespace,
-  local: ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
-  'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
-  'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
-  'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
-  'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-  'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-  'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
-  'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-  'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
-  ]
-});
-// Basic Typeahead (no Tags)
-// $('#the-basics .typeahead').typeahead({
-//   hint: true,
-//   highlight: true,
-//   minLength: 1
-// },
-// {
-//   name: 'states',
-//   source: states
-// });
-// Material Tags display
-$('div.typeahead-demo input').materialtags({
-  maxTags: 3,
-  // onTagExists: function(item, $tag) {
-  //       $tag.hide().fadeIn();
-  //   },
-  typeaheadjs: {
-    name: 'states',
-    source: states
-  }
-});
-</script>
 
-
-<!-- Example 2 -->
-<script>
-var resources = new Bloodhound({
-  datumTokenizer: function(datum) {
-    return Bloodhound.tokenizers.whitespace(datum.label)
-  },
-  queryTokenizer: Bloodhound.tokenizers.whitespace,
-  //prefetch: 'http://twitter.github.io/typeahead.js/data/films/post_1960.json',
-  prefetch: {
-    url: '{{ url_for("autocomplete.bloohdhoundRemote") }}',
-    'cache': false,
-    filter: function(response) {
-      console.log("Data: ", response.resource_list)
-      return response.resource_list;
-    }
-  }
-});
-  // datumTokenizer: Bloodhound.tokenizers.whitespace,
-  // queryTokenizer: Bloodhound.tokenizers.whitespace,
-  // `states` is an array of state names defined in "The Basics"
-  // local: ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
-  // 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
-  // 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
-  // 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
-  // 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-  // 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-  // 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
-  // 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-  // 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
-  // ]
-  //prefetch: 'https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json'
-// bestPictures.add([{
-//     "year": "1964",
-//     "value": "My awesome life!",
-//     "tokens": [
-//       "My",
-//       "Awesome",
-//       "Life"]
-//     }]);
-resources.add([{"value": "MIR:00000777", "label": "My Added Resource"}]);
-resources.initialize();
-// $('#bloodhound .typeahead').typeahead({
-//   hint: true,
-//   highlight: true,
-//   minLength: 1
-// },
-// {
-//   name: 'resources',
-//   display: function(response) {
-//     return response.label;
-//   },
-//   source: resources.ttAdapter()
-// });
-//$('#bloodhound .typeahead').typeahead({
-$('#bloodhound .typehead-input').materialtags({
-  maxTags: 3,
-  onTagExists: function(item, $tag) {
-        $tag.hide().fadeIn();
-    },
-    // hint: true,
-    // highlight: true,
-    // minLength: 1,
-  typeaheadjs: {
-    name: 'resources',
-    displayKey: 'label',
-    valueKey: 'value',
-    source: resources.ttAdapter()
-  },
-  //freeInput: true
-});
-//Use TypeaheadJS for Autocomplete
-// var substringMatcher = function(strs) {
-//   return function findMatches(q, cb) {
-//     var matches, substringRegex;
-//     // an array that will be populated with substring matches
-//     matches = [];
-//     // regex used to determine if a string contains the substring `q`
-//     substrRegex = new RegExp(q, 'i');
-//     // iterate through the pool of strings and for any string that
-//     // contains the substring `q`, add it to the `matches` array
-//     $.each(strs, function(i, str) {
-//       if (substrRegex.test(str)) {
-//         matches.push(str);
-//       }
-//     });
-//     cb(matches);
-//   };
-// };
-// var states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
-//   'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
-//   'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
-//   'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
-//   'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-//   'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-//   'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
-//   'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-//   'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
-// ];
-// $('#the-basics .typeahead').typeahead({
-//   hint: true,
-//   highlight: true,
-//   minLength: 1
-// },
-// {
-//   name: 'states',
-//   source: substringMatcher(states)
-// });
-</script>
 
 
 <!-- Example 3 -->
 <script>
-var cities = new Bloodhound({
+var products = new Bloodhound({
     // datumTokenizer: function(datum) {
     //   return Bloodhound.tokenizers.whitespace(datum.label)
     // },
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     prefetch: {
-      url: '{{ url_for("autocomplete.bloohdhoundRemote") }}',
+      url: './static/productlist.json',
       'cache': false,
       filter: function(response) {
-        console.log("City Names:", response.citynames)
-        return $.map(response.citynames, function(cityname) {
-          return { name: cityname };
+        return $.map(response.Title, function(product) {
+          return { name: product };
         });
       }
     }
 });
-cities.initialize();
+products.initialize();
 $('div.example3 input').materialtags({
   typeaheadjs: {
-    name: 'cities',
+    name: 'products',
     displayKey: 'name',
     valueKey: 'name',
-    source: cities
+    source: products
   }
 });
 </script>
 
 
 <!-- Example 4 - Multiple Datasets -->
-<script type="text/javascript">
-var nbaTeams = new Bloodhound({
-  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('team'),
-  queryTokenizer: Bloodhound.tokenizers.whitespace,
-  prefetch: {
-    url: '{{ url_for("autocomplete.multipleRemote") }}',
-    'cache': false,
-    filter: function(response) {
-      console.log("NBA Data: ", response.nba_teams)
-      return response.nba_teams;
-    }
-  }
-});
-var nhlTeams = new Bloodhound({
-  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('team'),
-  queryTokenizer: Bloodhound.tokenizers.whitespace,
-  prefetch: {
-    url: '{{ url_for("autocomplete.multipleRemote") }}',
-    'cache': false,
-    filter: function(response) {
-      console.log("NHL Data: ", response.nhl_teams)
-      return response.nhl_teams;
-    }
-  }
-});
-$('#multiple-datasets .typeahead-multiple').typeahead({
-  highlight: true
-},
-{
-  name: 'nba_teams',
-  //display: 'team',
-  display: function(response) {
-    return response.team;
-  },
-  source: nbaTeams,
-  templates: {
-    header: '<h3 class="league-name">NBA Teams</h3>'
-  }
-},
-{
-  name: 'nhl_teams',
-  display: function(response){
-    return response.team;
-  },
-  //display: 'team',
-  source: nhlTeams,
-  templates: {
-    header: '<h3 class="league-name">NHL Teams</h3>'
-  }
-});
-</script>
-
-
-
 
 {% endblock %}
